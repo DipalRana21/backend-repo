@@ -11,12 +11,18 @@ app.use(express.json());
 app.use(cors()); 
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/restaurant', {
+const uri = 'mongodb+srv://dipalrana:VEX6yChWS39XzMlD@cluster1.wendc.mongodb.net/restaurant?retryWrites=true&w=majority&appName=Cluster1';
+
+mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.log('Error connecting to MongoDB:', err));
+.then(() => {
+    console.log('Connected to MongoDB Atlas');
+})
+.catch((error) => {
+    console.error('MongoDB connection error:', error);
+});
 
 // User schema
 const userSchema = new mongoose.Schema({
