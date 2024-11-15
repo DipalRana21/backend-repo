@@ -176,6 +176,31 @@ app.post('/place-order', async (req, res) => {
     }
 });
 
+// Contact Schema
+const contactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    message: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+});
+
+const Contact = mongoose.model('Contact', contactSchema);
+
+// Contact Form Submission Endpoint
+app.post('/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+
+    try {
+        // Create a new contact message document
+        const newContactMessage = new Contact({ name, email, message });
+        await newContactMessage.save();
+
+        res.status(201).json({ message: 'Message sent successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error sending message', error });
+    }
+});
+
 
 
 
